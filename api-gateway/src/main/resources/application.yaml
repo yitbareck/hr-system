@@ -1,0 +1,46 @@
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: EMPLOYEE-SERVICE
+          uri: lb://EMPLOYEE-SERVICE
+          predicates:
+            - Path=/api/employees/**
+        - id: DEPARTMENT-SERVICE
+          uri: lb://DEPARTMENT-SERVICE
+          predicates:
+            - Path=/api/departments/**
+  application:
+    name: api-gateway
+
+eureka:
+  instance:
+    client:
+      serverUrl:
+        defaultZone: http://localhost:8761/eureka/
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, metrics, info, env, loggers
+  endpoint:
+    health:
+      show-details: always
+
+server:
+  port: 9191
+
+#spring.cloud.gateway.routes[0].id=EMPLOYEE-SERVICE
+#spring.cloud.gateway.routes[0].uri=lb://EMPLOYEE-SERVICE
+#spring.cloud.gateway.routes[0].predicates[0]=Path=/api/employees/**
+#
+#
+#spring.cloud.gateway.routes[1].id=DEPARTMENT-SERVICE
+#spring.cloud.gateway.routes[1].uri=lb://DEPARTMENT-SERVICE
+#spring.cloud.gateway.routes[1].predicates[0]=Path=/api/departments/**
+
+#spring.cloud.gateway.discovery.locator.enabled=true
+#spring.cloud.gateway.discovery.locator.lower-case-service-id=true
+#
+#logging.level.org.springframework.cloud.gateway.handler.RoutePredicateHandlerMapping=DEBUG
