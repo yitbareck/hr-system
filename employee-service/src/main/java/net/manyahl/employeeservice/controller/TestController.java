@@ -4,17 +4,23 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+@RestController
+@RefreshScope
 @RequestMapping("/api/test")
 public class TestController {
-    @GetMapping(produces = "application/xml")
-    public @ResponseBody Book getBook(){
-        return new Book(1,"The Count of Monte Cristo");
+    @Value("${test.message}")
+    private String message;
+    @GetMapping
+    public Book getBook(){
+        return new Book(1,message);
     }
 }
 @AllArgsConstructor
